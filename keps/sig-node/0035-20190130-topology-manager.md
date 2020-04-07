@@ -374,21 +374,21 @@ A new feature gate will be added to enable the Topology Manager feature. This fe
 
 1. Kubelet consults Topology Manager for pod admission (discussed above.)
 2. Add two implementations of Topology Manager interface and a feature gate.
-  1. As much Topology Manager functionality as possible is stubbed when the
+    1. As much Topology Manager functionality as possible is stubbed when the
      feature gate is disabled.
-  2. Add a functional Topology Manager that queries hint providers in order
+    2. Add a functional Topology Manager that queries hint providers in order
        to compute a preferred socket mask for each container.
 3. Add `GetTopologyHints()` method to CPU Manager.
-  1. CPU Manager static policy calls `GetAffinity()` method of
+    1. CPU Manager static policy calls `GetAffinity()` method of
      Topology Manager when deciding CPU affinity.
 4. Add `GetTopologyHints()` method to Device Manager.
-  1. Add `TopologyInfo` to Device structure in the device plugin
+    1. Add `TopologyInfo` to Device structure in the device plugin
      interface. Plugins should be able to determine the NUMA Node(s)
      when enumerating supported devices. See the protocol diff below.
-  2. Device Manager calls `GetAffinity()` method of Topology Manager when
+    2. Device Manager calls `GetAffinity()` method of Topology Manager when
      deciding device allocation.
 5. Add `topology` field to Pod Spec.
-  1. Add a field describing the pod-level topology policy in pod spec
+    1. Add a field describing the pod-level topology policy in pod spec
 
 ```
 apiVersion: v1
