@@ -378,6 +378,7 @@ A new feature gate will be added to enable the Topology Manager feature. This fe
 
  NOTE: 
  - The Policy Flag will be deprecated in Beta(v1.20), since the Pod Spec starts to specify topology policy. See detales in [Deprecates the Policy Flag of Topology Manager](#deprecates-the-policy-flag-of-topology-manager)
+ - Until Beta(v1.20) to use a topology policy that is specified in a Pod Spec, dynamic policy must be configured by a Kubelet flag.
 
 
 ### Changes to Existing Components
