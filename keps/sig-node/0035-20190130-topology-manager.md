@@ -56,6 +56,7 @@ _Reviewers:_
     - [Feature Gate and Kubelet Flags](#feature-gate-and-kubelet-flags)
     - [Changes to Existing Components](#changes-to-existing-components)
     - [Deprecates the Policy Flag of Topology Manager](#deprecates-the-policy-flag-of-topology-manager)
+  - [Practical challenges](#practical-challenges)
 - [Graduation Criteria](#graduation-criteria)
   - [Alpha (v1.16) [COMPLETED]](#alpha-v116-completed)
   - [Alpha (v1.17) [COMPLETED]](#alpha-v117-completed)
@@ -463,6 +464,15 @@ The behavior of Topology policies is listed below.
 - **dynamic**
   * The Topology Manager reads `v1core.PodSpec.Topology.Policy` field to coordinate assignment of resources for a Pod.
 
+## Practical challenges
+Non-NUMA aware scheduler may bind a pod to a node, where topology requirements cannot be satisfied. Topology Manager will reject a pod admission with TopologyError and pod will result in a `Terminated` state on a node.
+ 
+#### Mitigations
+1. Using a controller that guarantees to bind a Pod to a node where the desired topology of Pod's resource assignment can be satisfied.
+    1. A new object is required to describe the desired topology, the object can be a new workload type `TopologySet` or CRD. 
+2. A Topology-Aware Scheduler that would consider the topology of available resources on nodes.
+    1. Custom Scheduler could be provisioned to take care of the scheduling for high-performance applications. Detection of node's resources topology can be based on Node Feature Discovery with the usage of user-specified features.
+    2. Enhancing Scheduler through Scheduler Framework with ability to check if the selected node has enough resources matching topology requirement.
 
 # Graduation Criteria
 
@@ -494,6 +504,7 @@ The behavior of Topology policies is listed below.
 
 ## Beta (v1.20)
 * Deprecates the policy flag of the Topology Manager.
+* Update tests
 
 ## GA (stable)
 
